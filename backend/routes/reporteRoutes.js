@@ -1,21 +1,16 @@
-import { getAllReportes, createReporte } from '../models/reporteModel.js';
+import express from "express";
+import { ReporteController } from "../controllers/reporteController.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
-export const getReportes = async (req, res) => {
-  try {
-    const reportes = await getAllReportes();
-    res.json(reportes);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar reportes' });
-  }
-};
+const router = express.Router();
 
-export const createReporte = async (req, res) => {
-  try {
-    const newReporte = await createReporte(req.body);
-    res.status(201).json(newReporte);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao criar reporte' });
-  }
-};
+// Criar novo reporte (autenticado)
+router.post("/", authMiddleware, ReporteController.create);
+
+// Buscar todos os reportes de um usuário
+router.get("/usuario/:idusuario", authMiddleware, ReporteController.getByUserId);
+
+// Buscar todos os reportes próximos de uma latitude/longitude
+router.get("/localizacao", ReporteController.getByLocation);
+
+export default router;

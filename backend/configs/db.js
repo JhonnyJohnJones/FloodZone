@@ -29,10 +29,10 @@ async function initDB() {
       bairro VARCHAR(255),
       endereco VARCHAR(255),
       cep VARCHAR(20),
-      data DATE,
-      horario TIMESTAMP,
-      latitude DOUBLE PRECISION,
-      longitude DOUBLE PRECISION
+      data DATE DEFAULT CURDATE(),
+      horario TIMESTAMP DEFAULT NOW(),
+      latitude DOUBLE PRECISION NOT NULL,
+      longitude DOUBLE PRECISION NOT NULL
     );
   `);
 

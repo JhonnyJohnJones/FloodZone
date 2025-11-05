@@ -1,15 +1,33 @@
-import { pool } from '../config/db.js';
+import { pool } from "../config/db.js";
 
-export async function getAllReportes() {
-  const result = await pool.query('SELECT * FROM reportes');
-  return result.rows;
-}
+export const Reportes = {
+  async create({ idusuario, pais, estado, cidade, bairro, endereco, cep, data, horario, latitude, longitude }) {
+    const result = await pool.query(
+      `INSERT INTO reportes 
+       (idusuario, pais, estado, cidade, bairro, endereco, cep, data, horario, latitude, longitude)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+       RETURNING *`,
+      [idusuario, pais, estado, cidade, bairro, endereco, cep, data, horario, latitude, longitude]
+    );
+    return result.rows[0];
+  },
 
-export async function createReporte(data) {
-  const { title, status } = data;
-  const result = await pool.query(
-    'INSERT INTO reportes (title, status) VALUES ($1, $2) RETURNING *',
-    [title, status]
-  );
-  return result.rows[0];
-}
+  async getByUserId(idusuario) {
+    const result = await pool.query(
+      "SELECT * FROM reportes WHERE idusuario = $1 ORDER BY data DESC, horario DESC",
+      [idusuario]
+    );
+    return result.rows;
+  },
+
+  async getByLocation(latitude, longitude, radius = 0.01) {
+    // radius = 0.01 ≈ 1 km, ajustável
+    const result = await pool.query(
+      `SELECT * FROM reportes
+       WHERE latitude BETWEEN $1 - $3 AND $1 + $3
+       AND longitude BETWEEN $2 - $3 AND $2 + $3`,
+      [latitude, longitude, radius]
+    );
+    return result.rows;
+  },
+};

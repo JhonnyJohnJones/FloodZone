@@ -1,4 +1,5 @@
 import { Users } from "../models/userModel.js";
+import { Reportes } from "../models/reporteModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -69,6 +70,76 @@ export const UserController = {
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Erro ao realizar login" });
+    }
+  },
+};
+
+
+
+
+export const ReporteController = {
+  async create(req, res) {
+    try {
+      const {
+        idusuario,
+        pais,
+        estado,
+        cidade,
+        bairro,
+        endereco,
+        cep,
+        data,
+        horario,
+        latitude,
+        longitude,
+      } = req.body;
+
+      if (!idusuario || !latitude || !longitude)
+        return res.status(400).json({ error: "idusuario, latitude e longitude são obrigatórios" });
+
+      const newReport = await Reportes.create({
+        idusuario,
+        pais,
+        estado,
+        cidade,
+        bairro,
+        endereco,
+        cep,
+        data,
+        horario,
+        latitude,
+        longitude,
+      });
+
+      res.status(201).json(newReport);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Erro ao criar reporte" });
+    }
+  },
+
+  async getByUserId(req, res) {
+    try {
+      const { idusuario } = req.params;
+      const reportes = await Reportes.getByUserId(idusuario);
+      res.json(reportes);
+    } catch (err) {
+      res.status(500).json({ error: "Erro ao buscar reportes do usuário" });
+    }
+  },
+
+  async getByLocation(req, res) {
+    try {
+      const { latitude, longitude } = req.query;
+      if (!latitude || !longitude)
+        return res.status(400).json({ error: "latitude e longitude são obrigatórios" });
+
+      const radius = parseFloat(req.query.radius) || 0.01;
+      const reportes = await Reportes.getByLocation(parseFloat(latitude), parseFloat(longitude), radius);
+      res.json(reportes);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Erro ao buscar reportes por localização" });
     }
   },
 };
