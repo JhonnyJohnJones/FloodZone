@@ -1,12 +1,16 @@
 import express from "express";
-import { UserController } from "../controllers/userController.js";
+import { Controlador } from "../controllers/Controlador.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/register", UserController.register);
-router.post("/login", UserController.login);
+// Registrar novo usuário
+router.post("/register", Controlador.Users.create);
 
-router.get("/:id", authMiddleware, UserController.getById);
+// Login
+router.post("/login", Controlador.Users.login);
+
+// Buscar usuário por ID (autenticado)
+router.get("/:id", authMiddleware, Controlador.Users.getById);
 
 export default router;

@@ -22,11 +22,15 @@ export const Reportes = {
 
   async getByLocation(latitude, longitude, radius = 0.01) {
     // radius = 0.01 ≈ 1 km, ajustável
+    const radiusWithMargin = radius + 0.005;
     const result = await pool.query(
-      `SELECT * FROM reportes
-       WHERE latitude BETWEEN $1 - $3 AND $1 + $3
-       AND longitude BETWEEN $2 - $3 AND $2 + $3`,
-      [latitude, longitude, radius]
+      `
+      SELECT * FROM reportes
+      WHERE data >= NOW() - INTERVAL '2 years'
+        AND latitude BETWEEN $1 - $3 AND $1 + $3
+        AND longitude BETWEEN $2 - $3 AND $2 + $3
+      `,
+      [latitude, longitude, radiusWithMargin]
     );
     return result.rows;
   },
