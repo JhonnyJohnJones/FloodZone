@@ -2,12 +2,6 @@ import { pool } from "../config/db.js";
 import bcrypt from "bcrypt";
 
 export const Users = {
-  // Busca todos os usuários
-  async getAll() {
-    const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
-    return result.rows;
-  },
-
   // Busca usuário por ID
   async getById(id) {
     const result = await pool.query("SELECT * FROM users WHERE id = $1", [id]);

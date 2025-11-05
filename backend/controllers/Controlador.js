@@ -5,18 +5,8 @@ import bcrypt from "bcrypt";
 const SECRET_KEY = process.env.SECRET_KEY;
 
 export const UserController = {
-  // 🔹 Lista todos os usuários
-  async getAll(req, res) {
-    try {
-      const users = await Users.getAll();
-      res.json(users);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Erro ao listar usuários" });
-    }
-  },
 
-  // 🔹 Busca usuário por ID
+  // Busca usuário por ID
   async getById(req, res) {
     try {
       const { id } = req.params;
@@ -28,7 +18,7 @@ export const UserController = {
     }
   },
 
-  // 🔹 Cria um novo usuário (com senha criptografada)
+  // Cria um novo usuário (com senha criptografada)
   async create(req, res) {
     try {
       const { email, senha, nome } = req.body;
@@ -54,7 +44,7 @@ export const UserController = {
     }
   },
 
-  // 🔹 Login com geração de token JWT
+  // Login com geração de token JWT
   async login(req, res) {
     try {
       const { email, senha } = req.body;
