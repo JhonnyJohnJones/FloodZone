@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 export const Users = {
   // Busca usuário por ID
   async getById(id) {
-    const result = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    const result = await pool.query("SELECT id, email, nome FROM users WHERE id = $1", [id]);
     if (result.rows.length === 0) return null;
     return result.rows[0];
   },

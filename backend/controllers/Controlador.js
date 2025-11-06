@@ -13,7 +13,9 @@ export const Controlador = {
   Users: {
     async getById(req, res) {
       try {
-        const { id } = req.user?.id;
+        const id = req.user?.id;
+        // console.log(`User do token: ${JSON.stringify(req.user)}`)
+        // console.log(`ID de usuário: ${id}`)
         const user = await Users.getById(id);
         if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
         res.json(user);
@@ -34,8 +36,7 @@ export const Controlador = {
           return res.status(400).json({ error: "Email já cadastrado" });
         }
 
-        const hashedPassword = await bcrypt.hash(senha, 10);
-        const newUser = await Users.create({ email, senha: hashedPassword, nome });
+        const newUser = await Users.create({ email, senha, nome });
         const token = jwt.sign({ id: newUser.id }, SECRET_KEY, { expiresIn: "2h" });
 
         res.status(201).json({
