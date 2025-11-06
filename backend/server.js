@@ -1,9 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import routes from "./routes/index.js";
+import { initDB } from "./configs/db.js";
 
 // Carrega variáveis de ambiente do .env
 dotenv.config();
+
+try{
+  await initDB()
+} catch (err) {
+  console.log(`Erro ao iniciar DB: ${err}`)
+}
 
 const app = express();
 

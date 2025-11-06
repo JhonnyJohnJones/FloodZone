@@ -29,7 +29,7 @@ async function initDB() {
       bairro VARCHAR(255),
       endereco VARCHAR(255),
       cep VARCHAR(20),
-      data DATE DEFAULT CURDATE(),
+      data DATE DEFAULT CURRENT_DATE,
       horario TIMESTAMP DEFAULT NOW(),
       latitude DOUBLE PRECISION NOT NULL,
       longitude DOUBLE PRECISION NOT NULL
