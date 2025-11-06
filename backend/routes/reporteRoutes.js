@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/reportar", authMiddleware, Controlador.Reportes.create);
 
 // Gerar heatmap de enchentes a partir de latitude/longitude
-router.get("/heatmap", Controlador.Heatmap.getHeatmap);
+router.get("/heatmap", authMiddleware, Controlador.Heatmap.getHeatmap);
 
 export default router;
