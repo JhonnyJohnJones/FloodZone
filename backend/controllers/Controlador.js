@@ -37,7 +37,7 @@ export const Controlador = {
         }
 
         const newUser = await Users.create({ email, senha, nome });
-        const token = jwt.sign({ id: newUser.id }, SECRET_KEY, { expiresIn: "2h" });
+        const token = jwt.sign({ id: newUser.id }, SECRET_KEY, { expiresIn: "12h" });
 
         res.status(201).json({
           message: "Usuário criado com sucesso",
@@ -68,7 +68,7 @@ export const Controlador = {
         if (!validPassword)
           return res.status(401).json({ error: "Senha incorreta" });
 
-        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: "2h" });
+        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: "12h" });
 
         res.json({
           message: "Login bem-sucedido",
@@ -144,6 +144,8 @@ export const Controlador = {
         if (!latitude || !longitude)
           return res.status(400).json({ error: "Latitude e longitude são obrigatórias" });
 
+        // console.log(`Latitude Controlador: ${latitude}`)
+        // console.log(`Longitude Controlador: ${longitude}`)
         const mapa = await Maps.criarHeatmap(parseFloat(latitude), parseFloat(longitude));
         res.json(mapa);
       } catch (error) {

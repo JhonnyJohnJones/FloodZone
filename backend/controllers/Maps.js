@@ -1,13 +1,17 @@
+import { Reportes } from "../models/reporteModel.js";
+
 export const Maps = {
   // Busca os reportes relevantes com base em latitude, longitude e raio
   async reportes(latitude, longitude, radius = 0.001) {
-    // Aqui usamos a função já existente do modelo
+    // console.log(`Latitude Maps: ${latitude}`)
+    // console.log(`Longitude Maps: ${longitude}`)
     const result = await Reportes.getByLocation(latitude, longitude, radius);
     return result;
   },
 
   // Cria o heatmap a partir dos reportes encontrados
   async criarHeatmap(latitude, longitude) {
+    
     const reportes = await this.reportes(latitude, longitude, 0.001);
 
     const clusters = [];

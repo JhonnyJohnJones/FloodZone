@@ -14,15 +14,19 @@ export const Reportes = {
 
   async getByLocation(latitude, longitude, radius = 0.01) {
     // radius = 0.01 ≈ 1 km, ajustável
-    const radiusWithMargin = radius + 0.005;
+    // console.log(`Latitude Model: ${latitude}`)
+    // console.log(`Longitude Model: ${longitude}`)
+    const lat = parseFloat(latitude);
+    const lon = parseFloat(longitude);
+    const rad = parseFloat(radius) + 0.005;
     const result = await pool.query(
       `
       SELECT * FROM reportes
       WHERE data >= NOW() - INTERVAL '2 years'
-        AND latitude BETWEEN $1 - $3 AND $1 + $3
-        AND longitude BETWEEN $2 - $3 AND $2 + $3
+        AND latitude BETWEEN ($1::float8 - $3::float8) AND ($1::float8 + $3::float8)
+        AND longitude BETWEEN ($2::float8 - $3::float8) AND ($2::float8 + $3::float8)
       `,
-      [latitude, longitude, radiusWithMargin]
+      [lat, lon, rad]
     );
     return result.rows;
   },
