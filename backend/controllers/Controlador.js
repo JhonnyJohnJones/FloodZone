@@ -13,7 +13,7 @@ export const Controlador = {
   Users: {
     async getById(req, res) {
       try {
-        const { id } = req.params;
+        const { id } = req.user?.id;
         const user = await Users.getById(id);
         if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
         res.json(user);

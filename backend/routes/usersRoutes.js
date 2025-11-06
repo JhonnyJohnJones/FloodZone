@@ -11,6 +11,6 @@ router.post("/register", Controlador.Users.create);
 router.post("/login", Controlador.Users.login);
 
 // Buscar usuário por ID (autenticado)
-router.get("/:id", authMiddleware, Controlador.Users.getById);
+router.get("/", authMiddleware, Controlador.Users.getById);
 
 export default router;
