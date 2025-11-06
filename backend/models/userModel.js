@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import { pool } from "../configs/db.js";
 import bcrypt from "bcrypt";
 
 export const Users = {

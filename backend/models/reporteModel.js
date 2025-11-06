@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import { pool } from "../configs/db.js";
 
 export const Reportes = {
   async create({ idusuario, pais, estado, cidade, bairro, endereco, cep, data, horario, latitude, longitude }) {
