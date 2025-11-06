@@ -131,35 +131,6 @@ export const Controlador = {
         res.status(500).json({ error: "Erro ao criar reporte" });
       }
     },
-
-    async getByUserId(req, res) {
-      try {
-        const idusuario = req.user?.id; // <-- Pega do JWT
-        if (!idusuario)
-          return res.status(401).json({ error: "Usuário não autenticado" });
-
-        const reportes = await Reportes.getByUserId(idusuario);
-        res.json(reportes);
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Erro ao buscar reportes do usuário" });
-      }
-    },
-
-    async getByLocation(req, res) {
-      try {
-        const { latitude, longitude } = req.query;
-        if (!latitude || !longitude)
-          return res.status(400).json({ error: "latitude e longitude são obrigatórias" });
-
-        const radius = parseFloat(req.query.radius) || 0.01;
-        const reportes = await Reportes.getByLocation(parseFloat(latitude), parseFloat(longitude), radius);
-        res.json(reportes);
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Erro ao buscar reportes por localização" });
-      }
-    },
   },
 
   // ====================================================

@@ -12,14 +12,6 @@ export const Reportes = {
     return result.rows[0];
   },
 
-  async getByUserId(idusuario) {
-    const result = await pool.query(
-      "SELECT * FROM reportes WHERE idusuario = $1 ORDER BY data DESC, horario DESC",
-      [idusuario]
-    );
-    return result.rows;
-  },
-
   async getByLocation(latitude, longitude, radius = 0.01) {
     // radius = 0.01 ≈ 1 km, ajustável
     const radiusWithMargin = radius + 0.005;
