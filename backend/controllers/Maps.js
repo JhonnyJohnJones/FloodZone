@@ -17,7 +17,7 @@ export const Maps = {
     // console.log(`Reportes: ${JSON.stringify(reportes)}`)
 
     const clusters = [];
-    const clusterRadius = 0.001; // ~100m
+    const clusterRadius = 0.005; // ~100m
     const maxCredibilidade = 5;
 
     for (const r of reportes) {
