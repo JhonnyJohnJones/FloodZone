@@ -10,9 +10,11 @@ export const Maps = {
   },
 
   // Cria o heatmap a partir dos reportes encontrados
-  async criarHeatmap(latitude, longitude) {
+  async criarHeatmap(latitude, longitude, raio) {
     
-    const reportes = await this.reportes(latitude, longitude, 0.001);
+    const reportes = await this.reportes(latitude, longitude, raio);
+
+    // console.log(`Reportes: ${JSON.stringify(reportes)}`)
 
     const clusters = [];
     const clusterRadius = 0.001; // ~100m

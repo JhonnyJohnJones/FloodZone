@@ -140,13 +140,13 @@ export const Controlador = {
   Heatmap: {
     async getHeatmap(req, res) {
       try {
-        const { latitude, longitude } = req.query;
+        const { latitude, longitude, raio } = req.query;
         if (!latitude || !longitude)
           return res.status(400).json({ error: "Latitude e longitude são obrigatórias" });
 
         // console.log(`Latitude Controlador: ${latitude}`)
         // console.log(`Longitude Controlador: ${longitude}`)
-        const mapa = await Maps.criarHeatmap(parseFloat(latitude), parseFloat(longitude));
+        const mapa = await Maps.criarHeatmap(parseFloat(latitude), parseFloat(longitude), parseFloat(raio || 0.01));
         res.json(mapa);
       } catch (error) {
         console.error("Erro ao gerar heatmap:", error);

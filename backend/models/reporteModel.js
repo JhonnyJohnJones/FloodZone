@@ -5,7 +5,7 @@ export const Reportes = {
     const result = await pool.query(
       `INSERT INTO reportes 
        (idusuario, pais, estado, cidade, bairro, endereco, cep, data, horario, latitude, longitude)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,COALESCE($8, CURRENT_DATE), COALESCE($9, NOW()),$10,$11)
        RETURNING *`,
       [idusuario, pais, estado, cidade, bairro, endereco, cep, data, horario, latitude, longitude]
     );
@@ -22,7 +22,7 @@ export const Reportes = {
     const result = await pool.query(
       `
       SELECT * FROM reportes
-      WHERE data >= NOW() - INTERVAL '2 years'
+      WHERE (data IS NULL OR data >= NOW() - INTERVAL '2 years')
         AND latitude BETWEEN ($1::float8 - $3::float8) AND ($1::float8 + $3::float8)
         AND longitude BETWEEN ($2::float8 - $3::float8) AND ($2::float8 + $3::float8)
       `,
