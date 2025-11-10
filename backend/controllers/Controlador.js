@@ -146,7 +146,7 @@ export const Controlador = {
 
         // console.log(`Latitude Controlador: ${latitude}`)
         // console.log(`Longitude Controlador: ${longitude}`)
-        const mapa = await Maps.criarHeatmap(parseFloat(latitude), parseFloat(longitude), parseFloat(raio || 0.01));
+        const mapa = await Maps.criarHeatmap(parseFloat(latitude), parseFloat(longitude), parseFloat(raio || 0.1));
         res.json(mapa);
       } catch (error) {
         console.error("Erro ao gerar heatmap:", error);

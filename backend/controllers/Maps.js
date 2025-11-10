@@ -2,7 +2,7 @@ import { Reportes } from "../models/reporteModel.js";
 
 export const Maps = {
   // Busca os reportes relevantes com base em latitude, longitude e raio
-  async reportes(latitude, longitude, radius = 0.001) {
+  async reportes(latitude, longitude, radius = 0.1) {
     // console.log(`Latitude Maps: ${latitude}`)
     // console.log(`Longitude Maps: ${longitude}`)
     const result = await Reportes.getByLocation(latitude, longitude, radius);
@@ -17,7 +17,7 @@ export const Maps = {
     // console.log(`Reportes: ${JSON.stringify(reportes)}`)
 
     const clusters = [];
-    const clusterRadius = 0.005; // ~100m
+    const clusterRadius = 0.002; // ~100m
     const maxCredibilidade = 5;
 
     for (const r of reportes) {
